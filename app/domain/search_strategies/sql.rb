@@ -39,6 +39,9 @@ module SearchStrategies
       'Event' => {
         attrs: ['events.name', 'events.number', 'groups.name'],
         joins: [:groups]
+      },
+      'Address' => {
+        attrs: ['addresses.street', 'addresses.town', 'addresses.state', 'addresses.zip_code'],
       }
     }
 
@@ -62,6 +65,11 @@ module SearchStrategies
     def query_events
       return Event.none.page(1) unless term_present?
       query_entities(Event.includes(:groups, :dates).all).page(1).per(QUERY_PER_PAGE)
+    end
+
+    def query_addresses
+      return Address.none.page(1) unless term_present?
+      query_entities(Address.list).page(1).per(QUERY_PER_PAGE)
     end
 
     protected
