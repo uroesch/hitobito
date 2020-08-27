@@ -62,6 +62,7 @@ class Setup
       export RAILS_PRODUCTION_DB_NAME=hit_#{wagon}_production
       export RUBYOPT=-W0
       #{'export WAGONS="' + wagons.join(' ') + '"' if wagons.any?}
+      export ADDRESSES_TOKEN=VFVfNTQ0Nzg5Ml8wMDAxOlBpWDRUMjVD
       log_status "hitobito now uses: #{wagons.any? ? wagons.join(', ') : 'just the core'}"
       source_up
     DIRENV
