@@ -89,7 +89,10 @@ class Address::Importer
       zip_code = zip_codes.fetch(row[2])
       numbers = house_numbers.fetch(row[1], []).to_a.compact.sort.uniq
       street = {
-        street: row[4],
+        street_short: row[5],
+        street_long: row[6],
+        street_short_old: row[3],
+        street_long_old: row[4],
         zip_code: zip_code[:zip],
         town: zip_code[:name],
         state: zip_code[:state],

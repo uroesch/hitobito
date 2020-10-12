@@ -8,12 +8,15 @@
 class AddAddresses < ActiveRecord::Migration[6.0]
   def change
     create_table :addresses do |t|
-      t.string :street, null: false
+      t.string :street_short, null: false
+      t.string :street_short_old, null: false
+      t.string :street_long, null: false
+      t.string :street_long_old, null: false
       t.string :town, null: false
       t.integer :zip_code, null: false
       t.string :state, null: false
       t.text :numbers
     end
-    add_index :addresses, [:street, :zip_code]
+    add_index :addresses, [:street_short, :street_long, :street_short_old, :street_long_old, :zip_code], name: :addresses_street_names
   end
 end
