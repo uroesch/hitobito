@@ -70,7 +70,7 @@ class InvoiceListsController < CrudController
 
   def multi_create
     assign_attributes
-    entry.recipient = parent.people.first
+    entry.recipient = entry.recipients.first
     entry.multi_create if entry.valid?
   end
 
@@ -95,7 +95,7 @@ class InvoiceListsController < CrudController
   end
 
   def invoices
-    parent.invoices.where(id: params[:ids].to_s.split(','))
+    parent.invoices.where(id: list_param(:ids))
   end
 
   def flash_message(attrs)

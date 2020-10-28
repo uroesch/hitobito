@@ -1,7 +1,3 @@
-#  or later. See the COPYING file at the top-level directory or at
-#  https://github.com/hitobito/hitobito.
-
-
 de:
   time:
     formats:
@@ -60,7 +56,6 @@ de:
             choices:
               requires_more_than_one_choice: 'muss mindestens zwei Anworten enthalten'
         event/participation:
-          emoji_suspected: 'Bitte keine Sonderzeichen (insbesondere Emoji) verwenden'
           attributes:
             person_id:
               taken: ist bereits angemeldet
@@ -75,7 +70,6 @@ de:
               not_match_configured: "stimmen nicht mit denen am server hinterlegten überein."
         person:
           name_missing: 'Bitte geben Sie einen Namen ein'
-          emoji_suspected: 'Bitte keine Sonderzeichen (insbesondere Emoji) verwenden'
           readonly: ": Du hast nicht auf alle Personen aus dem Haushalt Schreibrechte. Entferne %{name} aus dem Haushalt, um die Adresse anzupassen."
           attributes:
             email:
@@ -206,6 +200,9 @@ de:
       label_format:
         one: Etikettenformat
         other: Etikettenformate
+      mail_log:
+        one: Verlauf
+        other: Verlauf
       mailing_list:
         one: Abo
         other: Abos
@@ -260,6 +257,9 @@ de:
       subscription:
         one: Abonnent
         other: Abonnenten
+      tag:
+        one: Tag
+        other: Tags
 
     attributes:
       acts_as_taggable_on/tag:
@@ -617,6 +617,18 @@ de:
           failed: Fehlgeschlagen
         mailchimp_include_additional_emails: 'Alle Versandadressen synchronisieren'
 
+      mail_log:
+        updated_at: Bearbeitet am
+        mail_from: Absender
+        mail_subject: Betreff
+        status: Status
+        statuses:
+          retreived: Wird gesendet
+          bulk_delivering: Wird gesendet
+          completed: Gesendet
+          sender_rejected: Absender abgelehnt
+          unkown_recipient: Fehler
+
       subscription:
         related_role_types: Rollen
         subscriber_id: '' # not used, error messages require different labels
@@ -797,6 +809,8 @@ de:
         invoices: Rechnungen dieser Ebene
         event_participations: Teilnehmende von Anlässen dieser Ebene
         mailing_lists: Abonnent/-innen von Mailinglisten dieser Ebene
+      tag:
+        taggings_count: Anzahl
 
   doorkeeper:
     scopes:

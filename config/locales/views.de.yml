@@ -808,7 +808,7 @@ de:
       caption_anyone_may_post: 'Beliebige Absender/-innen dürfen auf die Mailingliste schreiben'
       caption_delivery_report: 'E-Mail mit Bestätigung an Absender schicken'
       help_preferred_labels: 'E-Mails werden falls vorhanden, nur an E-Mailadressen mit dieser Bezeichnung verschickt. Dabei werden auch E-Mail Adressen verwendet, die nicht als Versand-Adresse markiert sind.'
-      help_mailchimp_sync: 'Abonnenten können an die MailChimp-Liste exportiert werden, dies geschieht jedoch nicht automatisch. Diese Aktion überschreibt die MailChimp-Liste und bestehende Kontakte werden gelöscht.'
+      help_mailchimp_sync: 'Abonnenten können an die MailChimp-Liste exportiert werden. Diese Aktion überschreibt die MailChimp-Liste und bestehende Kontakte werden gelöscht.'
 
   mailing_list_decorator:
     may_subscribe: 'Abonnenten dürfen sich selbst an/abmelden'
@@ -830,7 +830,7 @@ de:
     courses: 'Kurse'
     admin: 'Einstellungen'
     admin/event_feed: 'Kalender integrieren'
-    admin/oauth_authorizations: 'OAuth-Authorisierungen'
+    admin/oauth_authorizations: 'OAuth-Autorisierungen'
     invoices: 'Rechnungen'
 
   notes:
@@ -1000,8 +1000,10 @@ de:
       destroy:
         success: <i>%{person}</i> wurde von <i>%{mailing_list}</i> abgemeldet.
     tags:
-      list:
-        category_other: Andere
+      tag:
+        category_validation:
+          email_primary_invalid: Haupt-E-Mail ungültig
+          email_additional_invalid: Weitere E-Mail ungültig
 
   person/csv_imports:
     invalid_file: Bitte wählen Sie eine gültige CSV Datei aus.
@@ -1161,7 +1163,12 @@ de:
 
     tag:
       title: Tags
-      prompt_tag_selection: Nur Personen mit einem der untenstehenden Tags
+      prompt_tag_selection: Personen einbeziehen, die mindestens einen der untenstehenden Tags enthalten
+      prompt_tag_placeholder: Gewünschte Tag-Namen eingeben
+
+    tag_absence:
+      prompt_tag_absence_selection: Personen ausschliessen, die mindestens einen der untenstehenden Tags enthalten
+      prompt_tag_absence_placeholder: Gewünschte Tag-Namen eingeben
 
     new:
       title: Personen filtern
@@ -1267,6 +1274,13 @@ de:
         one: Eine Rolle erstellen
         other: '%{count} Rollen erstellen'
 
+  tags:
+    multiselect_actions:
+      merge_tags: Zusammenführen
+    categories:
+      other: Andere
+      validation: Validierung
+
   tag_lists:
     destroy:
       success:
@@ -1371,6 +1385,16 @@ de:
     append_to_household: "%{item} wurde zum Haushalt (%{object_changes}) hinzugefügt."
     household_updated: "Haushalt (%{object_changes}) wurde aktualisiert."
     remove_from_household: "%{item} wurde vom Haushalt (%{object_changes}) entfernt."
+
+  tags/merge:
+    success: Die Tags wurden erfolgreich zusammengeführt.
+
+  tags_merge:
+    tags: Tags
+    title: Sollen die gewählten Tags zusammengeführt werden?
+    name: Neuer Name
+    submit: Zusammenführen
+    category: Kategorie
 
   views:
     pagination:

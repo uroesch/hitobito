@@ -1,15 +1,23 @@
 # Hitobito Changelog
 
+## unreleased
+
+*  Tag Verwaltung unter Einstellungen
+
 ## Version 1.22
 
+*  Bugfix: Vergangene Anlässe werden nicht mehr auf der Person angezeigt (#847)
 *  Verbesserung der Mailchimp Integration und am Rechnungsmodul
 *  Liste "Meine Abos" auf der Person (optional für jede hitobito-Instanz)
 *  QR-Code-Rechnungen
 *  Icons in der Suche
 *  Neue API-Endpoints für Gruppen-Hierarchie und Abos
 *  Berechtigungen werden im OAuth-Profil mitgeliefert
-*  Eigene OAuth-Authorisierungen können entfernt werden
+*  Eigene OAuth-Autorisierungen können entfernt werden
 *  Generelle Validierung von E-Mail Adressen
+*  Datenbank kann nun Emoji (also: alles aus Unicode) speichern
+*  Bug behoben, der das Übersetzen von Texten in neue Sprachen verhindert hat
+*  Personen filtern die einen spezifischen Tag nicht besitzen
 
 ## Version 1.21
 

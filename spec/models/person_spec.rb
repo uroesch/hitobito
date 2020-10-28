@@ -72,11 +72,10 @@ describe Person do
     expect(Person.new(company: false, company_name: 'foo')).to have(1).errors_on(:base)
   end
 
-  it 'cannot be saved with emoji', :mysql do
+  it 'can be saved with emoji', :mysql do
     person = Person.new(company: false, nickname: 'foo', additional_information: ' Vegetarier😝 ')
-    expect(person.save).to be false
-    expect(person.errors.messages[:base].size).to be 1
-    expect(person.errors.messages[:base].first).to match /emoji/i
+    expect(person.save).to be true
+    expect(person.errors.messages[:base].size).to be_zero
   end
 
   it 'with login role does not require email' do
@@ -484,7 +483,7 @@ describe Person do
     expect(attrs[:nickname]).to eq(label: 'Übername', type: :string)
     expect(attrs[:company_name]).to eq(label: 'Firmenname', type: :string)
     expect(attrs[:email]).to eq(label: 'Haupt-E-Mail', type: :string)
-    expect(attrs[:address]).to eq(label: 'Adresse', type: :string)
+    expect(attrs[:address]).to eq(label: 'Adresse', type: :text)
     expect(attrs[:zip_code]).to eq(label: 'PLZ', type: :string)
     expect(attrs[:town]).to eq(label: 'Ort', type: :string)
     expect(attrs[:country]).to eq(label: 'Land', type: :string)
@@ -567,6 +566,41 @@ describe Person do
 
       expect(person).to be_valid
     end
+  end
+
+  describe 'invalid e-mail tags' do
+    let(:person) { people(:top_leader) }
+    let(:taggings) do
+      ActsAsTaggableOn::Tagging
+        .where(taggable: person)
+    end
+
+    before { allow(Truemail).to receive(:valid?).and_call_original }
+
+    before do
+      person.email = 'not-an-email'
+      person.save!(validate: false)
+    end
+
+    before do
+      AdditionalEmail
+        .new(contactable: person,
+             email: 'no-email@no-domain')
+        .save!(validate: false)
+    end
+
+    before { Contactable::EmailValidator.new.validate_people }
+
+    it 'removes invalid e-mail tags when saving' do
+      expect(taggings.count).to eq(2)
+
+      person.email = 'info@hitobito.ch'
+      person.additional_emails.first.email = 'hitobito@puzzle.ch'
+      person.save!
+
+      expect(taggings.reload.count).to eq(0)
+    end
+
   end
 
 end

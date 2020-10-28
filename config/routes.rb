@@ -1,7 +1,4 @@
-#  Copyright (c) 2012-2019, Jungwacht Blauring Schweiz. This file is part of
-#  hitobito and licensed under the Affero General Public License version 3
-#  or later. See the COPYING file at the top-level directory or at
-#  https://github.com/hitobito/hitobito.
+# frozen_string_literal: true
 
 Hitobito::Application.routes.draw do
 
@@ -214,6 +211,8 @@ Hitobito::Application.routes.draw do
         end
 
         resources :mailchimp_synchronizations, only: [:create]
+
+        resources :mail_logs, only: [:index], controller: 'mailing_list/mail_logs'
       end
 
       resource :csv_imports, only: [:new, :create], controller: 'person/csv_imports' do
@@ -238,6 +237,12 @@ Hitobito::Application.routes.draw do
     resources :event_kinds, module: 'event', controller: 'kinds'
 
     resources :qualification_kinds
+    resources :tags do
+      collection do
+        get 'merge' => 'tags/merge#new', as: 'new_merge'
+        post 'merge' => 'tags/merge#create', as: 'merge'
+      end
+    end
 
     resources :label_formats do
       collection do

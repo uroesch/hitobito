@@ -85,7 +85,7 @@ class Event::Participation < ActiveRecord::Base
     end
 
     def upcoming
-      joins(event: :dates).where('event_dates.start_at >= ?', ::Time.zone.today).distinct
+      joins(:event).merge(Event::upcoming(::Time.zone.today)).distinct
     end
 
   end
@@ -115,15 +115,6 @@ class Event::Participation < ActiveRecord::Base
   def applying_participant?
     role = roles.first
     event.supports_applications && (application_id || role && role.class.participant?)
-  end
-
-  # Overwrite to handle improper characters
-  def save(*args)
-    super
-  rescue ActiveRecord::StatementInvalid => e
-    raise e unless e.cause.message =~ /Incorrect string value/
-    errors.add(:base, :emoji_suspected)
-    false
   end
 
   private

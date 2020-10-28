@@ -1,11 +1,5 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
-#  Copyright (c) 2012-2013, Jungwacht Blauring Schweiz. This file is part of
-#  hitobito and licensed under the Affero General Public License version 3
-#  or later. See the COPYING file at the top-level directory or at
-#  https://github.com/hitobito/hitobito.
-# == Schema Information
-#
 # Table name: people
 #
 #  id                        :integer          not null, primary key
@@ -85,6 +79,7 @@ class Person < ActiveRecord::Base
   include I18nSettable
   include I18nEnums
   include ValidatedEmail
+  include PersonTags::ValidationTagged
 
   i18n_enum :gender, GENDERS
   i18n_setter :gender, (GENDERS + [nil])
@@ -158,13 +153,14 @@ class Person < ActiveRecord::Base
 
   ### VALIDATIONS
 
-  validates_by_schema except: [:email, :picture]
+  validates_by_schema except: [:email, :picture, :address]
   validates :email, length: { allow_nil: true, maximum: 255 } # other email validations by devise
   validates :company_name, presence: { if: :company? }
   validates :birthday,
             timeliness: { type: :date, allow_blank: true, before: Date.new(10_000, 1, 1) }
   validates :additional_information, length: { allow_nil: true, maximum: 2**16 - 1 }
   validate :assert_has_any_name
+  validates :address, length: { allow_nil: true, maximum: 1024 }
   # more validations defined by devise
 
 
@@ -292,15 +288,11 @@ class Person < ActiveRecord::Base
     email == Settings.root_email
   end
 
-  # Overwrite to handle uniquness validation race conditions and improper characters
+  # Overwrite to handle uniquness validation race conditions
   def save(*args)
     super
   rescue ActiveRecord::RecordNotUnique
     errors.add(:email, :taken)
-    false
-  rescue ActiveRecord::StatementInvalid => e
-    raise e unless e.cause.message =~ /Incorrect string value/
-    errors.add(:base, :emoji_suspected)
     false
   end
 
