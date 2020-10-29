@@ -74,6 +74,7 @@ class Group < ActiveRecord::Base
 
   has_many :roles, dependent: :destroy, inverse_of: :group
   has_many :people, through: :roles
+  has_many :person_doublets, class_name: 'PeopleFilter'
 
   has_many :people_filters, dependent: :destroy
 

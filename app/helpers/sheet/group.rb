@@ -57,6 +57,10 @@ module Sheet
           view.can?(:index_service_tokens, group)
         end)
 
+    tab 'global.tabs.info',
+        :group_person_doublets_path,
+        no_alt: true
+
     delegate :group_path, to: :view
 
     def render_breadcrumbs
