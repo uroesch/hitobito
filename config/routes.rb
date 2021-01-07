@@ -55,6 +55,8 @@ Hitobito::Application.routes.draw do
 
       end
 
+      resources :settings, only: [:index, :edit, :update], controller: 'group_settings', as: 'group_settings'
+
       resources :invoices do
         resources :payments, only: :create
       end
@@ -225,7 +227,14 @@ Hitobito::Application.routes.draw do
 
         resources :mailchimp_synchronizations, only: [:create]
 
-        resources :mail_logs, only: [:index], controller: 'mailing_list/mail_logs'
+        resources :messages, controller: 'messages' do
+          collection do
+            post 'preview' # needed for preview of new letter
+            patch 'preview' # needed for preview of existing letter
+            post 'print' # needed for printing new letter
+            patch 'print' # needed for printing existing letter
+          end
+        end
       end
 
       resource :csv_imports, only: [:new, :create], controller: 'person/csv_imports' do

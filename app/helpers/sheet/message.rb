@@ -6,9 +6,7 @@
 #  https://github.com/hitobito/hitobito.
 
 module Sheet
-  class MailingList
-    class MailLog < Base
-      self.parent_sheet = Sheet::MailingList
-    end
+  class Message < Base
+    self.parent_sheet = Sheet::MailingList
   end
 end

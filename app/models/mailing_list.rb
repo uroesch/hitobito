@@ -1,4 +1,4 @@
-# encoding: utf-8
+# frozen_string_literal: true
 
 #  Copyright (c) 2012-2017, Jungwacht Blauring Schweiz. This file is part of
 #  hitobito and licensed under the Affero General Public License version 3
@@ -42,7 +42,18 @@ class MailingList < ActiveRecord::Base
            class_name: 'Person::AddRequest::MailingList',
            dependent: :destroy
 
-  has_many :mail_logs, dependent: :nullify
+  has_many :mail_logs, through: :messages
+  has_many :messages, dependent: :nullify, foreign_key: :recipients_source_id
+
+  has_many :text_messages,
+           class_name: 'Messages::TextMessage',
+           dependent: :nullify,
+           foreign_key: :recipients_source_id
+
+  has_many :letters,
+           class_name: 'Messages::Letter',
+           dependent: :nullify,
+           foreign_key: :recipients_source_id
 
   validates_by_schema
   validates :mail_name, uniqueness: { case_sensitive: false },

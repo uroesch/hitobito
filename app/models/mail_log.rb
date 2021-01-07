@@ -11,20 +11,18 @@
 #
 #  id                :integer          not null, primary key
 #  mail_from         :string(255)
-#  mail_subject      :string(255)
 #  mail_hash         :string(255)
 #  status            :integer          default(0)
 #  mailing_list_name :string(255)
-#  mailing_list_id   :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #
 
 class MailLog < ActiveRecord::Base
 
-  enum status: [:retreived, :bulk_delivering, :completed, :sender_rejected, :unkown_recipient]
+  belongs_to :message
 
-  belongs_to :mailing_list
+  enum status: [:retreived, :bulk_delivering, :completed, :sender_rejected, :unkown_recipient]
 
   validates_by_schema
 
@@ -38,6 +36,7 @@ class MailLog < ActiveRecord::Base
     def build(mail)
       mail_log = new
       mail_log.mail = mail
+      mail_log.message = Messages::BulkMail.new(subject: mail.subject)
       mail_log
     end
 
@@ -56,9 +55,16 @@ class MailLog < ActiveRecord::Base
   end
 
   def mail=(mail)
-    self.mail_subject = mail.subject
     self.mail_from = Array(mail.from).first
     self.mail_hash = md5_hash(mail)
+  end
+
+  def mail_subject
+    message.subject
+  end
+
+  def mailing_list
+    message.recipients_source
   end
 
   private

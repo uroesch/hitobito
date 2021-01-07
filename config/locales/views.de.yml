@@ -14,6 +14,7 @@ de:
     unknown: unbekannt
     nobody: niemand
     all: Alle
+    salutation: Guten Tag
 
     from: Von
     until: Bis
@@ -50,6 +51,8 @@ de:
       refresh: Aktualisieren
       print: Drucken
       copy: Kopieren
+      edit: Bearbeiten
+      preview: Vorschau
 
     link:
       show: Anzeigen
@@ -65,6 +68,7 @@ de:
 
     tabs:
       info: Info
+      settings: Einstellungen
 
     search:
       placeholder: 'Suchen...'
@@ -77,7 +81,7 @@ de:
     index:
       title: '%{models}'
 
-  crud:
+  crud: &crud
     show:
       title: "%{model}"
     new:
@@ -94,6 +98,8 @@ de:
       flash:
         success: "%{model} wurde erfolgreich gelöscht."
         failure: "%{model} konnte nicht gelöscht werden."
+
+  model_crud: *crud
 
   contactable:
     address_or_email: "%{address} oder %{email}"
@@ -1433,3 +1439,25 @@ de:
       first: Erste
       last: Letzte
       truncate: '...'
+
+  messages:
+    actions_index:
+      letters:
+        new: Neuer Brief
+      text_messages:
+        new: Neue SMS
+    letter:
+      form:
+        available_placeholders: 'Verfügbare Platzhalter: %{placeholders}'
+        finalize_and_print: 'Finalisieren und drucken...'
+        finalize_and_print_notice: 'Nach dieser Aktion zählt der Brief<br/>als versendet und kann nicht mehr<br/>bearbeitet werden.'
+        print_again: 'Erneut drucken'
+        prompt_tag_placeholder: '-'
+        recipients_count: '%{count} Empfänger'
+      new:
+        title: Neuer Brief
+    list:
+      states:
+        delivered: '%{count} zugestellt'
+        failed: '%{count} fehlgeschlagen'
+        planned: '%{count} Empfänger'

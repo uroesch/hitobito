@@ -31,6 +31,20 @@ module FormHelper
     crud_form(path_args(entry), *attrs, options, &block)
   end
 
+  # Render a generic modal form for the current entry
+  def modal_entry_form(*attrs, &block)
+    options = attrs.extract_options!
+    options[:noindent] = true
+    options[:stacked] = true
+    buttons = options[:buttons] || true
+    attrs = attrs_or_default(attrs) { default_attrs - [:created_at, :updated_at] }
+    standard_form(path_args(entry), options) do |form|
+      content = form.error_messages
+      content << form.labeled_input_fields(*attrs)
+      content.html_safe
+    end
+  end
+
   # Renders a generic form for the given entry with :default_attrs or the
   # given attribute array, using the StandardFormBuilder. An options hash
   # may be given as the last argument.
@@ -40,7 +54,8 @@ module FormHelper
 
     buttons_bottom = options.delete(:buttons_bottom)
     buttons_top = options.delete(:buttons_top) { true }
-    form_button_options = options.slice(:add_another_label, :add_another, :submit_label)
+    form_button_options = options.slice(:add_another_label, :add_another, :submit_label,
+                                        :multiple_submit)
                                  .merge(cancel_url: get_cancel_url(object, options))
 
     standard_form(object, options) do |form|
@@ -55,7 +70,13 @@ module FormHelper
                  end
 
       if buttons_bottom
-        content << form_buttons(form, form_button_options.merge(toolbar_class: 'bottom'))
+        buttons_bottom = content_for?(:buttons_bottom) ? content_for(:buttons_bottom) : ''
+        content << form_buttons(form, form_button_options.merge(toolbar_class: 'bottom',
+                                                                additional_buttons: buttons_bottom))
+      elsif content_for?(:buttons_bottom)
+        content << button_toolbar(form, toolbar_class: 'bottom') do
+          content_for(:buttons_bottom)
+        end
       end
 
       content.html_safe
@@ -68,27 +89,39 @@ module FormHelper
     end
   end
 
-  def form_buttons(form, submit_label: ti(:"button.save"), cancel_url: nil, toolbar_class: nil,
-                          add_another: false, add_another_label: ti(:"button.add_another"))
-    button_toolbar(form, toolbar_class: toolbar_class) do
-      content = submit_button(form, submit_label)
-      content << add_another_button(form, add_another_label) if add_another.present?
-      content << cancel_link(cancel_url) if cancel_url.present?
-
-      content
+  def form_buttons(form, options = {})
+    button_toolbar(form, toolbar_class: options[:toolbar_class]) do
+      button_toolbar_content(form, options)
     end
   end
 
+  def button_toolbar_content(form, options)
+    submit_label = options[:submit_label] || ti(:'button.save')
+    add_another = options[:add_another].eql?(true)
+    add_another_label = options[:add_another_label] || ti(:'button.add_another')
+    multiple_submit = options[:multiple_submit].eql?(true)
+    cancel_url = options[:cancel_url]
+
+    content = submit_button(form, submit_label, disable: !multiple_submit)
+    if add_another.present?
+      content << add_another_button(form, add_another_label, disable: !multiple_submit)
+    end
+    content << options[:additional_buttons]
+    content << cancel_link(cancel_url) if cancel_url.present?
+    content
+  end
+
   def add_another_button(form, label, options = {})
+    data = options.fetch(:disable, true) ? { disable: true } : {}
     content_tag(:div, class: 'btn-group') do
-      form.button(label, options.merge(name: :add_another, class: 'btn btn-primary',
-                                       data: { disable: true }))
+      form.button(label, options.merge(name: :add_another, class: 'btn btn-primary', data: data))
     end
   end
 
   def submit_button(form, label, options = {})
+    data = options.fetch(:disable, true) ? { disable_with: label } : {}
     content_tag(:div, class: 'btn-group') do
-      form.button(label, options.merge(class: 'btn btn-primary', data: { disable_with: label }))
+      form.button(label, options.merge(class: 'btn btn-primary', data: data))
     end
   end
 
