@@ -11,11 +11,14 @@
 # Table name: event_questions
 #
 #  id               :integer          not null, primary key
+#  admin            :boolean          default(FALSE), not null
+#  multiple_choices :boolean          default(FALSE), not null
+#  required         :boolean          default(FALSE), not null
 #  event_id         :integer
-#  question         :string
-#  choices          :string
-#  multiple_choices :boolean          default(FALSE)
-#  required         :boolean
+#
+# Indexes
+#
+#  index_event_questions_on_event_id  (event_id)
 #
 
 require 'spec_helper'

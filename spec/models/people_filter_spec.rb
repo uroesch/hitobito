@@ -9,10 +9,18 @@
 #
 # Table name: people_filters
 #
-#  id         :integer          not null, primary key
-#  name       :string           not null
-#  group_id   :integer
-#  group_type :string
+#  id           :integer          not null, primary key
+#  filter_chain :text(16777215)
+#  group_type   :string(255)
+#  name         :string(255)      not null
+#  range        :string(255)      default("deep")
+#  created_at   :datetime
+#  updated_at   :datetime
+#  group_id     :integer
+#
+# Indexes
+#
+#  index_people_filters_on_group_id_and_group_type  (group_id,group_type)
 #
 
 require 'spec_helper'

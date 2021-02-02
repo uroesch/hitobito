@@ -10,8 +10,12 @@
 # Table name: event_attachments
 #
 #  id       :integer          not null, primary key
+#  file     :string(255)      not null
 #  event_id :integer          not null
-#  file     :string           not null
+#
+# Indexes
+#
+#  index_event_attachments_on_event_id  (event_id)
 #
 
 require 'spec_helper'

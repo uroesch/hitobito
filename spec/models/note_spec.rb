@@ -7,14 +7,19 @@
 
 # == Schema Information
 #
-# Table name: person_notes
+# Table name: notes
 #
-#  id         :integer          not null, primary key
-#  person_id  :integer          not null
-#  author_id  :integer          not null
-#  text       :text
-#  created_at :datetime
-#  updated_at :datetime
+#  id           :integer          not null, primary key
+#  subject_type :string(255)
+#  text         :text(16777215)
+#  created_at   :datetime
+#  updated_at   :datetime
+#  author_id    :integer          not null
+#  subject_id   :integer          not null
+#
+# Indexes
+#
+#  index_notes_on_subject_id  (subject_id)
 #
 
 require 'spec_helper'

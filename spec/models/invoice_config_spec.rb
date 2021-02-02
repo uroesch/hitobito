@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: invoice_configs
+#
+#  id                          :integer          not null, primary key
+#  account_number              :string(255)
+#  address                     :text(16777215)
+#  beneficiary                 :text(16777215)
+#  currency                    :string(255)      default("CHF"), not null
+#  due_days                    :integer          default(30), not null
+#  email                       :string(255)
+#  iban                        :string(255)
+#  participant_number          :string(255)
+#  participant_number_internal :string(255)
+#  payee                       :text(16777215)
+#  payment_information         :text(16777215)
+#  payment_slip                :string(255)      default("ch_es"), not null
+#  sequence_number             :integer          default(1), not null
+#  vat_number                  :string(255)
+#  group_id                    :integer          not null
+#
+# Indexes
+#
+#  index_invoice_configs_on_group_id  (group_id)
+#
+
+
 #  Copyright (c) 2017, Jungwacht Blauring Schweiz. This file is part of
 #  hitobito and licensed under the Affero General Public License version 3
 #  or later. See the COPYING file at the top-level directory or at
