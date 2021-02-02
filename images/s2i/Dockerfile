@@ -42,6 +42,8 @@ RUN \
     yum install ImageMagick ImageMagick-devel -y && \
     yum clean all -y
 
+RUN bash -c "gem install bundler:1.17.3 --no-doc"
+
 # BUNDLE_WITHOUT is a workaround for the base image:
 # Do not install gems from development and test environments.
 ENV \
