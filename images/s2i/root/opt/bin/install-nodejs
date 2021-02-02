@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 ARCH = 'x64'
-MAJOR_NODEJS_VERSION = 8
+MAJOR_NODEJS_VERSION = 10
 GITHUB_REPO_URL = 'https://github.com/nodejs/node.git'
 DOWNLOAD_BASE_URL = 'https://nodejs.org/dist'
 
