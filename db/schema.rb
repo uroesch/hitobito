@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_12_111156) do
+ActiveRecord::Schema.define(version: 2021_02_20_212920) do
 
   create_table "action_text_rich_texts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -268,6 +268,7 @@ ActiveRecord::Schema.define(version: 2021_02_12_111156) do
     t.boolean "display_booking_info", default: true, null: false
     t.boolean "participations_visible", default: false, null: false
     t.boolean "waiting_list", default: true, null: false
+    t.boolean "globally_visible"
     t.index ["kind_id"], name: "index_events_on_kind_id"
   end
 
