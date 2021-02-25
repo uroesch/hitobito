@@ -9,7 +9,7 @@ class GroupAbility < AbilityDsl::Base
 
   on(Group) do # rubocop:disable Metrics/BlockLength
     permission(:any).
-      may(:read, :show_details, :index_events, :'index_event/courses', :index_mailing_lists).
+      may(:read, :index_events, :'index_event/courses', :index_mailing_lists).
       with_any_roles
     permission(:any).may(:deleted_subgroups).if_member
 
