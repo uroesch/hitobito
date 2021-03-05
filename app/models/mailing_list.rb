@@ -125,6 +125,24 @@ class MailingList < ActiveRecord::Base
     Synchronize::Mailchimp::Client.new(self)
   end
 
+  def valid_message_recipients(message)
+    case message
+    when Message::Letter
+      people.with_address
+    when Message::TextMessage
+      people.select { |p| p.phone_numbers.any? { |n| n.label == 'Mobil' } }
+    end
+  end
+
+  def invalid_message_recipients(message)
+    case message
+    when Message::Letter
+      people - people.with_address
+    when Message::TextMessage
+      people - people.select { |p| p.phone_numbers.any? { |n| n.label == 'Mobil' } }
+    end
+  end
+
   private
 
   def assert_mail_name_is_not_protected
@@ -143,5 +161,4 @@ class MailingList < ActiveRecord::Base
   def schedule_mailchimp_destroy
     MailchimpDestructionJob.new(mailchimp_list_id, mailchimp_api_key, people).enqueue!
   end
-
 end

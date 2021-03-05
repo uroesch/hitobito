@@ -7,7 +7,8 @@
   .controls
     %p.text
       = link_to([parent.group, parent, :subscriptions, format: :pdf], target: :_blank) do
-        =t('.recipient_info', count: @recipient_count, model_class: model_class.model_name.human)
+        =t(".recipient_info.valid.#{entry.type.underscore}", count: parent.valid_message_recipients(entry).size, model_class: model_class.model_name.human)
+        =t(".recipient_info.invalid.#{entry.type.underscore}", count: parent.invalid_message_recipients(entry).size)
 
   = f.hidden_field :type
 
